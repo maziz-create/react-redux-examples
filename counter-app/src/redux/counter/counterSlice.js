@@ -14,9 +14,12 @@ export const counterSlice = createSlice({
         },
         decrement: (state) => {
             state.value -= 1;
+        },
+        incrementByAmount: (state, action) => {
+            state.value += Number(action.payload);
         }
     },
 })
 
-export const { increment, decrement } = counterSlice.actions; //state'i değiştirecek fonkileri dışarı aktarıyoruz.
+export const { increment, decrement, incrementByAmount } = counterSlice.actions; //state'i değiştirecek fonkileri dışarı aktarıyoruz.
 export default counterSlice.reducer; //değiştirici fonkileri dışarı aktardık sanırım.
