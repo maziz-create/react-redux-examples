@@ -6,7 +6,17 @@ export const counterSlice = createSlice({
     initialState: {
         value: 0,
     },
-    reducers: {}, //state'i değiştirecek fonkiler
+
+    reducers: {//state'i değiştirecek fonkiler
+        //burada actionlarımız yer alır. state'i değiştirecek şeyler..
+        increment: (state) => {
+            state.value += 1;
+        },
+        decrement: (state) => {
+            state.value -= 1;
+        }
+    },
 })
 
+export const { increment, decrement } = counterSlice.actions; //state'i değiştirecek fonkileri dışarı aktarıyoruz.
 export default counterSlice.reducer; //değiştirici fonkileri dışarı aktardık sanırım.
