@@ -2,10 +2,10 @@ import React from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 //bir event gönderecek olursak slice'ı da import etmeliyiz.
-import { toggle, destroy } from '../redux/todos/todosSlice'
+import { toggle, destroy, selectFilteredTodos } from '../redux/todos/todosSlice'
 
 function TodoList() {
-    const items = useSelector(state => state.todos.items);
+    const filteredTodos = useSelector(selectFilteredTodos);
 
     const dispatch = useDispatch(); //store'a bir şey göndermek istediğimizde kullanmak zorundayız.
 
@@ -15,12 +15,12 @@ function TodoList() {
         }
     }
 
-    console.log(items);
+    // console.log(items);
 
     return (
         <ul className="todo-list">
             {
-                items.map((item) => (
+                filteredTodos.map((item) => (
                     <li key={item.id} className={item.completed ? 'completed' : ''}>
                         <div className="view">
                             <input
