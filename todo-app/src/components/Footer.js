@@ -10,4 +10,5 @@ function Footer() {
     )
 }
 
-export default Footer
+//Burası tamamen statik olduğu için App.js render edildiğinde bu component render edilmesin istiyoruz.
+export default React.memo(Footer);
