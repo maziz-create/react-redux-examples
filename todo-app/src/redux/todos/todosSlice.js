@@ -23,14 +23,21 @@ export const todosSlice = createSlice({
         },
         //toggle : aktifse deaktif et, deaktifse aktif et demekmiş.
         toggle: (state, action) => {
-            const { id } = action.payload; //bize action ile id gönderilecek.
+            const { id } = action.payload; //bize action ile id gönderilecek. Obje olarak yollandığı için obje olarak alıyoruz.
 
             const item = state.items.find((item) => item.id === id);
 
             item.completed = !item.completed;
         },
+        destroy: (state, action) => {
+            const id = action.payload; //bize action ile id gönderilecek.
+            
+            const filtered = state.items.filter((item) => item.id !== id); //o id harici elemanları yeni bir diziye at.
+
+            state.items = filtered; 
+        }
     },
 });
 
-export const { addTodo, toggle } = todosSlice.actions;
+export const { addTodo, toggle, destroy } = todosSlice.actions;
 export default todosSlice.reducer; //dışarıdan isterlerse xxxx olarak alsınlar, ben bunu gönderiyorum.
