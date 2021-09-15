@@ -10,6 +10,8 @@ function Form() {
     const dispatch = useDispatch(); //action göndereceğiz.
 
     const handleSubmit = (e) => {
+        if (!title) return; //herhangi bir şey girilmemişse bitir fonksiyonu.
+
         e.preventDefault(); //sayfa yenilenmemesi için
 
         setTitle('');
