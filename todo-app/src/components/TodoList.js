@@ -2,12 +2,18 @@ import React from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 //bir event gönderecek olursak slice'ı da import etmeliyiz.
-import { toggle } from '../redux/todos/todosSlice'
+import { toggle, destroy } from '../redux/todos/todosSlice'
 
 function TodoList() {
     const items = useSelector(state => state.todos.items);
 
     const dispatch = useDispatch(); //store'a bir şey göndermek istediğimizde kullanmak zorundayız.
+
+    const handleDestroy = (item_id) => {
+        if (window.confirm('Are you sure?')) {
+            dispatch(destroy(item_id));
+        }
+    }
 
     console.log(items);
 
@@ -24,7 +30,7 @@ function TodoList() {
                                 onChange={() => dispatch(toggle({ id: item.id }))}
                             />
                             <label>{item.title}</label>
-                            <button className="destroy"></button>
+                            <button className="destroy" onClick={() => handleDestroy(item.id)}></button>
                         </div>
                     </li>
                 ))
