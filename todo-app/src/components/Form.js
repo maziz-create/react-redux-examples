@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 import { useDispatch } from 'react-redux'
-import { nanoid } from '@reduxjs/toolkit'
 import { addTodo } from '../redux/todos/todosSlice'
 
 function Form() {
@@ -16,14 +15,9 @@ function Form() {
 
         setTitle('');
 
-        dispatch(
-            addTodo(
-                {
-                    id: nanoid(), //random id üretiyor.
-                    title, //title: title kendisi yapıyor. (ikinci title => state'imiz)
-                    completed: false,
-                }
-            )
+        dispatch(addTodo({ title }) //title: title kendisi yapıyor. (ikinci title => state'imiz)
+        //sonradan => todosSlice'daki prepare'e uygun olarak refactor edildi.
+
         );
 
         console.log('test');

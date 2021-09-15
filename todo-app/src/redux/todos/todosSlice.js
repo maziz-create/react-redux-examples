@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, nanoid } from '@reduxjs/toolkit'
 
 export const todosSlice = createSlice({
     name: 'todos',
@@ -18,9 +18,28 @@ export const todosSlice = createSlice({
         activeFilter: 'all',
     },
     reducers: {
-        addTodo: (state, action) => {
-            //datayı klonlamadan iş yapma! burada react-toolkit arka planda klonlayıp da ekliyor.
-            state.items.push(action.payload); //gönderilen actionun içeriğini pushla.
+        addTodo: {
+            reducer: (state, action) => {
+                //datayı klonlamadan iş yapma! burada react-toolkit arka planda klonlayıp da ekliyor.
+                state.items.push(action.payload); //gönderilen actionun içeriğini pushla.
+            },
+            /*
+                Gelen action(ve altındaki payload) prepare alanına düşer. Gerekli işler yapılır.
+                Sonra tam üstteki reducer alanının action kısmına düşer ve klasik işlemlere devam edilir.
+                (Alttan üste giden actionun da altında payload var. Bu şu demek,
+                    componentten buraya gelen de actiondu, altındaki payload burada derlendi.
+                    Yeni bir action üretilip yukarı gönderildi. Sonra da haliyle altındaki payload
+                    gerekli işlemlerde kullanılacak...)
+            */
+            prepare: ({ title }) => {
+                return {
+                    payload: {
+                        id: nanoid(), //random id üretiyor.
+                        completed: false,
+                        title,
+                    }
+                }
+            }
         },
         //toggle : aktifse deaktif et, deaktifse aktif et demekmiş.
         toggle: (state, action) => {
