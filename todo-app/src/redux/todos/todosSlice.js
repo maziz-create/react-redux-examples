@@ -16,7 +16,13 @@ export const todosSlice = createSlice({
             }
         ],
     },
-    reducers: {},
+    reducers: {
+        addTodo: (state, action) => {
+            //datayı klonlamadan iş yapma! burada react-toolkit arka planda klonlayıp da ekliyor.
+            state.items.push(action.payload); //gönderilen actionun içeriğini pushla.
+        }
+    },
 });
 
+export const { addTodo } = todosSlice.actions;
 export default todosSlice.reducer; //dışarıdan isterlerse xxxx olarak alsınlar, ben bunu gönderiyorum.
