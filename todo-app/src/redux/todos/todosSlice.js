@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import axios from 'axios'
 
@@ -8,7 +8,16 @@ export const getTodosAsync = createAsyncThunk(
     async () => {
         const res = await axios('http://localhost:7000/todos');
 
-        return await res.data(); //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
+        return res.data; //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
+    }
+)
+
+export const addTodoAsync = createAsyncThunk(
+    'todos/addTodoAsync', //action name
+    async (data) => {
+        const res = await axios.post('http://localhost:7000/todos', data);
+
+        return res.data; //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
     }
 )
 
@@ -21,29 +30,30 @@ export const todosSlice = createSlice({
         activeFilter: 'all',
     },
     reducers: {
-        addTodo: {
-            reducer: (state, action) => {
-                //datayı klonlamadan iş yapma! burada react-toolkit arka planda klonlayıp da ekliyor.
-                state.items.push(action.payload); //gönderilen actionun içeriğini pushla.
-            },
-            /*
-                Gelen action(ve altındaki payload) prepare alanına düşer. Gerekli işler yapılır.
-                Sonra tam üstteki reducer alanının action kısmına düşer ve klasik işlemlere devam edilir.
-                (Alttan üste giden actionun da altında payload var. Bu şu demek,
-                    componentten buraya gelen de actiondu, altındaki payload burada derlendi.
-                    Yeni bir action üretilip yukarı gönderildi. Sonra da haliyle altındaki payload
-                    gerekli işlemlerde kullanılacak...)
-            */
-            prepare: ({ title }) => {
-                return {
-                    payload: {
-                        id: nanoid(), //random id üretiyor.
-                        completed: false,
-                        title,
-                    }
-                }
-            }
-        },
+        //ARTIK BACKENDTE DE EKLEYECEĞİZ, SADECE CLIENT'A DEĞİL. 
+        // addTodo: {
+        //     reducer: (state, action) => {
+        //         //datayı klonlamadan iş yapma! burada react-toolkit arka planda klonlayıp da ekliyor.
+        //         state.items.push(action.payload); //gönderilen actionun içeriğini pushla.
+        //     },
+        //     /*
+        //         Gelen action(ve altındaki payload) prepare alanına düşer. Gerekli işler yapılır.
+        //         Sonra tam üstteki reducer alanının action kısmına düşer ve klasik işlemlere devam edilir.
+        //         (Alttan üste giden actionun da altında payload var. Bu şu demek,
+        //             componentten buraya gelen de actiondu, altındaki payload burada derlendi.
+        //             Yeni bir action üretilip yukarı gönderildi. Sonra da haliyle altındaki payload
+        //             gerekli işlemlerde kullanılacak...)
+        //     */
+        //     prepare: ({ title }) => {
+        //         return {
+        //             payload: {
+        //                 id: nanoid(), //random id üretiyor.
+        //                 completed: false,
+        //                 title,
+        //             }
+        //         }
+        //     }
+        // },
         //toggle : aktifse deaktif et, deaktifse aktif et demekmiş.
         toggle: (state, action) => {
             const { id } = action.payload; //bize action ile id gönderilecek. Obje olarak yollandığı için obje olarak alıyoruz.
@@ -73,6 +83,7 @@ export const todosSlice = createSlice({
         extraReducers alanında => getTodosAsync action' pending, fulfilled ve rejected anlarında
         state'i nasıl güncellenmesi gerektiğini belirtebiliyoruz.
         */
+        //get todos
         [getTodosAsync.pending]: (state, action) => {    //YÜKLEME DEVAM EDİYOR
             state.isLoading = true;
         },
@@ -84,6 +95,16 @@ export const todosSlice = createSlice({
             state.error = action.error.message
             state.isLoading = false;
         },
+        //add todos
+        [addTodoAsync.pending]: (state, action) => {
+
+        },
+        [addTodoAsync.fulfilled]: (state, action) => {
+            state.items.push(action.payload);
+        },
+        [addTodoAsync.rejected]: (state, action) => {
+
+        }
 
     }
 });
@@ -102,5 +123,6 @@ export const selectFilteredTodos = (state) => { //todoları basılan butona gör
     )
 }
 
-export const { addTodo, toggle, destroy, changeActiveFilter, clearCompleted } = todosSlice.actions;
+export const { /*addTodo, artık backente de ekliyoruz. thunk middleware ile çalışıyoruz.
+    */ toggle, destroy, changeActiveFilter, clearCompleted } = todosSlice.actions;
 export default todosSlice.reducer; //dışarıdan isterlerse xxxx olarak alsınlar, ben bunu gönderiyorum.

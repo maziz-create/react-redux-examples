@@ -1,22 +1,24 @@
 import { useState } from 'react'
 
 import { useDispatch } from 'react-redux'
-import { addTodo } from '../redux/todos/todosSlice'
+import { addTodoAsync } from '../redux/todos/todosSlice'
 
 function Form() {
     const [title, setTitle] = useState('');
 
     const dispatch = useDispatch(); //action göndereceğiz.
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         if (!title) return; //herhangi bir şey girilmemişse bitir fonksiyonu.
 
         e.preventDefault(); //sayfa yenilenmemesi için
 
         setTitle('');
 
-        dispatch(addTodo({ title }) //title: title kendisi yapıyor. (ikinci title => state'imiz)
+        await dispatch(addTodoAsync({ title })
+        //title: title kendisi yapıyor. (ikinci title => state'imiz)
         //sonradan => todosSlice'daki prepare'e uygun olarak refactor edildi.
+        //en son => artık backend'e de eklediğimiz için addTodo gitti, await geldi çünkğ asenkron bir işlem.
 
         );
 
