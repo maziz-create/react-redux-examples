@@ -6,7 +6,7 @@ import axios from 'axios'
 export const getTodosAsync = createAsyncThunk(
     'todos/getTodosAsync', //action name
     async () => {
-        const res = await axios('http://localhost:7000/todos');
+        const res = await axios(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos`);
 
         return res.data; //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
     }
@@ -15,7 +15,7 @@ export const getTodosAsync = createAsyncThunk(
 export const addTodoAsync = createAsyncThunk(
     'todos/addTodoAsync', //action name
     async (data) => {
-        const res = await axios.post('http://localhost:7000/todos', data);
+        const res = await axios.post(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos`, data);
 
         return res.data; //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
     }
@@ -28,6 +28,8 @@ export const todosSlice = createSlice({
         isLoading: true,
         error: null,
         activeFilter: 'all',
+        addNewTodoLoading: false,
+        addNewTodoError: null,
     },
     reducers: {
         //ARTIK BACKENDTE DE EKLEYECEĞİZ, SADECE CLIENT'A DEĞİL. 
@@ -92,18 +94,20 @@ export const todosSlice = createSlice({
             state.isLoading = false;
         },
         [getTodosAsync.rejected]: (state, action) => {   //YÜKLEME HATA ÇIKARDI.
-            state.error = action.error.message
+            state.error = action.error.message;
             state.isLoading = false;
         },
         //add todos
         [addTodoAsync.pending]: (state, action) => {
-
+            state.addNewTodoLoading = true;
         },
         [addTodoAsync.fulfilled]: (state, action) => {
             state.items.push(action.payload);
+            state.addNewTodoLoading = false;
         },
         [addTodoAsync.rejected]: (state, action) => {
-
+            state.addNewTodoError = action.error.message;
+            state.addNewTodoLoading = false;
         }
 
     }
