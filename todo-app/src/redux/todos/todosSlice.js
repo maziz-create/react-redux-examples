@@ -1,20 +1,21 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit'
+import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
+
+//MiddlewareThunk ile api call yapıyoruz. Todoları artık apimizden alacağız. Bunu tanımladıktan sonra state'e extraReducers tanımladık.
+export const getTodosAsync = createAsyncThunk(
+    'todos/getTodosAsync', //action name
+    async () => {
+        const res = await fetch('http://localhost:7000/todos');
+
+        return await res.json(); //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
+    }
+)
 
 export const todosSlice = createSlice({
     name: 'todos',
     initialState: {
-        items: [
-            {
-                id: '1',
-                title: 'Learn React',
-                completed: true,
-            },
-            {
-                id: '2',
-                title: 'Read a book',
-                completed: false,
-            }
-        ],
+        items: [],
+        isLoading: true,
+        error: null,
         activeFilter: 'all',
     },
     reducers: {
@@ -65,6 +66,24 @@ export const todosSlice = createSlice({
             state.items = filtered;
         }
     },
+    extraReducers: {
+        /*
+        extraReducers alanında => getTodosAsync action' pending, fulfilled ve rejected anlarında
+        state'i nasıl güncellenmesi gerektiğini belirtebiliyoruz.
+        */
+        [getTodosAsync.pending]: (state, action) => {    //YÜKLEME DEVAM EDİYOR
+            state.isLoading = true;
+        },
+        [getTodosAsync.fulfilled]: (state, action) => {  //YÜKLEME TAMAMİYLE BİTTİ
+            state.items = action.payload;
+            state.isLoading = false;
+        },
+        [getTodosAsync.rejected]: (state, action) => {   //YÜKLEME HATA ÇIKARDI.
+            state.error = action.error.message
+            state.isLoading = false;
+        },
+
+    }
 });
 
 //alttakilere selector deniliyor.
