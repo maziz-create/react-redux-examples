@@ -1,12 +1,14 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 
+import axios from 'axios'
+
 //MiddlewareThunk ile api call yapıyoruz. Todoları artık apimizden alacağız. Bunu tanımladıktan sonra state'e extraReducers tanımladık.
 export const getTodosAsync = createAsyncThunk(
     'todos/getTodosAsync', //action name
     async () => {
-        const res = await fetch('http://localhost:7000/todos');
+        const res = await axios('http://localhost:7000/todos');
 
-        return await res.json(); //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
+        return await res.data(); //burası getTodoAsync.fulfilled kısmının action.payload ' ına düşüyor.
     }
 )
 
