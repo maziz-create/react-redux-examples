@@ -30,6 +30,15 @@ export const toggleTodoAsync = createAsyncThunk(
     }
 )
 
+export const removeTodoAsync = createAsyncThunk(
+    'todos/removeTodoAsync',
+    async (id) => {
+        await axios.delete(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos/${id}`);
+
+        return id;
+    }
+)
+
 export const todosSlice = createSlice({
     name: 'todos',
     initialState: {
@@ -75,13 +84,16 @@ export const todosSlice = createSlice({
 
         //     item.completed = !item.completed;
         // },
-        destroy: (state, action) => {
-            const id = action.payload; //bize action ile id gönderilecek.
 
-            const filtered = state.items.filter((item) => item.id !== id); //o id harici elemanları yeni bir diziye at.
+        //ARTIK BACKENDTE DE SİLECEĞİZ.
+        // destroy: (state, action) => {
+        //     const id = action.payload; //bize action ile id gönderilecek.
 
-            state.items = filtered;
-        },
+        //     const filtered = state.items.filter((item) => item.id !== id); //o id harici elemanları yeni bir diziye at.
+
+        //     state.items = filtered;
+        // },
+
         changeActiveFilter: (state, action) => {
             state.activeFilter = action.payload;
         },
@@ -97,6 +109,10 @@ export const todosSlice = createSlice({
         state'i nasıl güncellenmesi gerektiğini belirtebiliyoruz.
         */
 
+        /* action nereden geliyor ?
+        buraya componentten gelen önce yukarıdaki örn: getTodoAsync fonkiye uğruyor. o fonki
+        buraya actionu gönderiyor. onun return değeri action.payload oluyor yani.S
+        */
         //get todos
         [getTodosAsync.pending]: (state, action) => {    //YÜKLEME DEVAM EDİYOR
             state.isLoading = true;
@@ -132,6 +148,12 @@ export const todosSlice = createSlice({
             // console.log(action.payload);
         },
 
+        //remove todos
+        [removeTodoAsync.fulfilled]: (state, action) => {
+            const id = action.payload;
+            const filtered = state.items.filter((item) => item.id !== id);
+            state.items = filtered;
+        },
     }
 });
 
@@ -149,5 +171,5 @@ export const selectFilteredTodos = (state) => { //todoları basılan butona gör
     )
 }
 
-export const { /*addTodo, toggle,*/ destroy, changeActiveFilter, clearCompleted } = todosSlice.actions;
+export const { /*addTodo, toggle, destroy,*/ changeActiveFilter, clearCompleted } = todosSlice.actions;
 export default todosSlice.reducer; //dışarıdan isterlerse xxxx olarak alsınlar, ben bunu gönderiyorum.
