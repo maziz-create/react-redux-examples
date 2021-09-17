@@ -46,8 +46,10 @@ export const todosSlice = createSlice({
         isLoading: true,
         error: null,
         activeFilter: 'all',
-        addNewTodoLoading: false,
-        addNewTodoError: null,
+        addNewTodo: {
+            isLoading: false,
+            error: null,
+        }
     },
     reducers: {
         //ARTIK BACKENDTE DE EKLEYECEĞİZ, SADECE CLIENT'A DEĞİL. 
@@ -128,15 +130,15 @@ export const todosSlice = createSlice({
 
         //add todos
         [addTodoAsync.pending]: (state, action) => {
-            state.addNewTodoLoading = true;
+            state.addNewTodo.isLoading = true;
         },
         [addTodoAsync.fulfilled]: (state, action) => {
             state.items.push(action.payload);
-            state.addNewTodoLoading = false;
+            state.addNewTodo.isLoading = false;
         },
         [addTodoAsync.rejected]: (state, action) => {
-            state.addNewTodoError = action.error.message;
-            state.addNewTodoLoading = false;
+            state.addNewTodo.error = action.error.message;
+            state.addNewTodo.isLoading = false;
         },
 
         //toggle todos
