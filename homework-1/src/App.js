@@ -1,13 +1,19 @@
 import './App.css';
 
-import { Flex } from '@chakra-ui/react'
+// import { Flex } from '@chakra-ui/react'
 import SearchInput from './components/SearchInput';
+import AddNotes from './components/AddNotes';
 
 function App() {
   return (
-    <Flex align="center" justify="center" backgroundColor="#EAEAEA">
+    <div className="container">
       <SearchInput />
-    </Flex>
+      <AddNotes />
+    </div>
+    // <Flex align="center" justify="center" backgroundColor="#EAEAEA">
+    //   <SearchInput />
+    //   <AddNotes />
+    // </Flex>
   );
 }
 
