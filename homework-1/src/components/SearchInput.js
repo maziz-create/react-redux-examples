@@ -18,8 +18,12 @@ function SearchInput() {
             <Input
                 backgroundColor="#fff"
                 placeholder="Search..."
+                marginLeft="100"
                 marginBottom="3"
                 borderRadius="3xl"
+                width= "60%"
+                
+                focusBorderColor="red.200"
             />
         </div>
     )
