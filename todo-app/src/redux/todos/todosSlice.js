@@ -45,7 +45,7 @@ export const todosSlice = createSlice({
         items: [],
         isLoading: true,
         error: null,
-        activeFilter: 'all',
+        activeFilter: localStorage.getItem('active-filter'),
         addNewTodo: {
             isLoading: false,
             error: null,
