@@ -21,6 +21,15 @@ export const addTodoAsync = createAsyncThunk(
     }
 )
 
+export const toggleTodoAsync = createAsyncThunk(
+    'todos/toggleTodoAsync', //toggle: açmak kapamak, açık olanı kapalı, kapalı olanı açık yapmak.
+    async ({ id, data }) => { //data: completed durumu
+        const res = await axios.patch(`${process.env.REACT_APP_API_BASE_ENDPOINT}/todos/${id}`, data);
+
+        return res.data;
+    }
+)
+
 export const todosSlice = createSlice({
     name: 'todos',
     initialState: {
@@ -56,14 +65,16 @@ export const todosSlice = createSlice({
         //         }
         //     }
         // },
+
+        // ARTIK TOGGLE İŞLEMİNİ BACKENDTE DE YAPACAĞIZ. O YÜZDEN EXTRAREDUCERS KISMINA THUNK MIDDLEWARE İLE EKLİYORUZ. 
         //toggle : aktifse deaktif et, deaktifse aktif et demekmiş.
-        toggle: (state, action) => {
-            const { id } = action.payload; //bize action ile id gönderilecek. Obje olarak yollandığı için obje olarak alıyoruz.
+        // toggle: (state, action) => {
+        //     const { id } = action.payload; //bize action ile id gönderilecek. Obje olarak yollandığı için obje olarak alıyoruz.
 
-            const item = state.items.find((item) => item.id === id);
+        //     const item = state.items.find((item) => item.id === id);
 
-            item.completed = !item.completed;
-        },
+        //     item.completed = !item.completed;
+        // },
         destroy: (state, action) => {
             const id = action.payload; //bize action ile id gönderilecek.
 
@@ -85,6 +96,7 @@ export const todosSlice = createSlice({
         extraReducers alanında => getTodosAsync action' pending, fulfilled ve rejected anlarında
         state'i nasıl güncellenmesi gerektiğini belirtebiliyoruz.
         */
+
         //get todos
         [getTodosAsync.pending]: (state, action) => {    //YÜKLEME DEVAM EDİYOR
             state.isLoading = true;
@@ -97,6 +109,7 @@ export const todosSlice = createSlice({
             state.error = action.error.message;
             state.isLoading = false;
         },
+
         //add todos
         [addTodoAsync.pending]: (state, action) => {
             state.addNewTodoLoading = true;
@@ -108,7 +121,16 @@ export const todosSlice = createSlice({
         [addTodoAsync.rejected]: (state, action) => {
             state.addNewTodoError = action.error.message;
             state.addNewTodoLoading = false;
-        }
+        },
+
+        //toggle todos
+        [toggleTodoAsync.fulfilled]: (state, action) => {
+            const { id, completed } = action.payload;
+            const index = state.items.findIndex((item) => item.id === id);
+
+            state.items[index].completed = completed;
+            // console.log(action.payload);
+        },
 
     }
 });
@@ -127,6 +149,5 @@ export const selectFilteredTodos = (state) => { //todoları basılan butona gör
     )
 }
 
-export const { /*addTodo, artık backente de ekliyoruz. thunk middleware ile çalışıyoruz.
-    */ toggle, destroy, changeActiveFilter, clearCompleted } = todosSlice.actions;
+export const { /*addTodo, toggle,*/ destroy, changeActiveFilter, clearCompleted } = todosSlice.actions;
 export default todosSlice.reducer; //dışarıdan isterlerse xxxx olarak alsınlar, ben bunu gönderiyorum.
