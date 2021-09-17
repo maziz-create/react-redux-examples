@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 //bir event gönderecek olursak slice'ı da import etmeliyiz.
-import { toggle, destroy, selectFilteredTodos, getTodosAsync } from '../redux/todos/todosSlice'
+import { destroy, selectFilteredTodos, getTodosAsync, toggleTodoAsync } from '../redux/todos/todosSlice'
 
 import Loading from './Loading'
 import Error from './Error'
@@ -21,6 +21,10 @@ function TodoList() {
         if (window.confirm('Are you sure?')) {
             dispatch(destroy(item_id));
         }
+    }
+
+    const handleToggle = async (item_id, completed) => {
+        await dispatch(toggleTodoAsync({ id: item_id, data: { completed } }))
     }
 
     if (isLoading) {
@@ -43,7 +47,7 @@ function TodoList() {
                                 className="toggle"
                                 type="checkbox"
                                 checked={item.completed}
-                                onChange={() => dispatch(toggle({ id: item.id }))}
+                                onChange={() => handleToggle(item.id, !item.completed)}
                             />
                             <label>{item.title}</label>
                             <button className="destroy" onClick={() => handleDestroy(item.id)}></button>
