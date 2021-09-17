@@ -2,7 +2,12 @@ import { useEffect } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 //bir event gönderecek olursak slice'ı da import etmeliyiz.
-import { destroy, selectFilteredTodos, getTodosAsync, toggleTodoAsync } from '../redux/todos/todosSlice'
+import {
+    selectFilteredTodos,
+    getTodosAsync,
+    toggleTodoAsync,
+    removeTodoAsync,
+} from '../redux/todos/todosSlice'
 
 import Loading from './Loading'
 import Error from './Error'
@@ -17,9 +22,9 @@ function TodoList() {
         dispatch(getTodosAsync());
     }, [dispatch]);
 
-    const handleDestroy = (item_id) => {
+    const handleDestroy = async (item_id) => {
         if (window.confirm('Are you sure?')) {
-            dispatch(destroy(item_id));
+            await dispatch(removeTodoAsync(item_id));
         }
     }
 
