@@ -11,7 +11,8 @@ function Palette() {
             <Flex >
                 <label className="checkboxContainer">
                     <input
-                        type="checkbox"
+                        type="radio"
+                        name="selectColor"
                         className="checkbox checkbox-pink"
                     />
                     <span className="checkmark checkmark-pink"></span>
@@ -19,7 +20,8 @@ function Palette() {
 
                 <label className="checkboxContainer">
                     <input
-                        type="checkbox"
+                        type="radio"
+                        name="selectColor"
                         className="checkbox checkbox-purple"
                     />
                     <span className="checkmark checkmark-purple"></span>
@@ -27,7 +29,8 @@ function Palette() {
 
                 <label className="checkboxContainer">
                     <input
-                        type="checkbox"
+                        type="radio"
+                        name="selectColor"
                         className="checkbox checkbox-yellow"
                     />
                     <span className="checkmark checkmark-yellow"></span>
@@ -35,7 +38,8 @@ function Palette() {
 
                 <label className="checkboxContainer">
                     <input
-                        type="checkbox"
+                        type="radio"
+                        name="selectColor"
                         className="checkbox checkbox-blue"
                     />
                     <span className="checkmark checkmark-blue"></span>
@@ -43,7 +47,8 @@ function Palette() {
 
                 <label className="checkboxContainer">
                     <input
-                        type="checkbox"
+                        type="radio"
+                        name="selectColor"
                         className="checkbox checkbox-green"
                     />
                     <span className="checkmark checkmark-green"></span>
@@ -57,6 +62,7 @@ function Palette() {
                     height="27"
                     marginLeft="50"
 
+                    // variant="outline"
                     colorScheme="red"
                     borderRadius="3xl"
                 >
