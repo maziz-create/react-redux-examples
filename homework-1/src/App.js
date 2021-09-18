@@ -1,8 +1,8 @@
 import './App.css';
 
 // import { Flex } from '@chakra-ui/react'
-import SearchInput from './components/SearchInput';
-import AddNotes from './components/AddNotes';
+import SearchInput from './components/SearchInput/';
+import AddNotes from './components/AddNotes/';
 
 function App() {
   return (
