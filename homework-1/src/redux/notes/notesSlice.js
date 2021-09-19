@@ -20,7 +20,7 @@ export const notesSlice = createSlice({
                 color: 'yellow',
             },
             {
-                id: 3,
+                id: 4,
                 title: 'Matematik tekrarı',
                 color: 'green',
             },
