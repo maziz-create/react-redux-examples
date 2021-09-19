@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import './style.css'
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addNote } from '../../redux/notes/notesSlice';
 
 import { Button, Flex, Box } from '@chakra-ui/react'
@@ -10,7 +10,6 @@ import { Button, Flex, Box } from '@chakra-ui/react'
 function Palette({ noteTitle }) {
     // console.log("palette => ", noteTitle);
     const dispatch = useDispatch();
-    const numberOfNotes = useSelector((state) => state.notes.numberOfNotes);
 
     // console.log("number of notes =>", numberOfNotes);
 
@@ -84,7 +83,7 @@ function Palette({ noteTitle }) {
                     onClick={() => dispatch(
                         addNote(
                             {
-                                id: Number(numberOfNotes) + 1,
+                                id: Number(localStorage.getItem('numberOfNotes')) + 1,
                                 title: noteTitle,
                                 color: noteColor,
                              }
