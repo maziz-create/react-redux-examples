@@ -25,13 +25,13 @@ export const notesSlice = createSlice({
                 color: 'green',
             },
         ],
-        numberOfNotes: localStorage.getItem('numberOfNotes'),
     },
     reducers: {
         addNote: {
             reducer: (state, action) => {
                 // console.log("gelen action payload => ", action.payload);
                 state.items.push(action.payload);
+                // console.log("gelen note id => ", action.payload.id);s
             }
         }
     }
