@@ -1,11 +1,11 @@
 import React from 'react'
 
-// import styles from './styles.module.css'
 import './style.css'
 
 import { Button, Flex, Box } from '@chakra-ui/react'
 
-function Palette() {
+function Palette({noteTitle}) {
+    // console.log("palette => ", noteTitle);
     return (
         <Flex justify="space-between" style={{ marginTop: "5px" }} >
             <Flex >

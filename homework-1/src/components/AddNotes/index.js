@@ -1,11 +1,16 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import styles from '../styles.module.css'
+
+import { useSelector } from 'react-redux';
 
 import Palette from '../Palette'
 
 import { Textarea, Box } from '@chakra-ui/react'
 
+
 function AddNotes() {
+    const [noteTitle, setNoteTitle] = useState('');
+
     return (
         <Box>
             <Textarea
@@ -16,11 +21,13 @@ function AddNotes() {
                 resize="none"
                 height="150"
 
-                // marginBottom="3"
+                value={noteTitle}
+                onChange={(e) => setNoteTitle(e.target.value)}
+
                 focusBorderColor="red.200"
             />
 
-            <Palette />
+            <Palette noteTitle={noteTitle} />
         </Box>
     )
 }
