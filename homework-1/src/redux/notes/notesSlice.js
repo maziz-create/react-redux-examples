@@ -24,13 +24,14 @@ export const notesSlice = createSlice({
                 title: 'Matematik tekrarı',
                 color: 'green',
             },
-        ]
+        ],
+        numberOfNotes: localStorage.getItem('numberOfNotes'),
     },
     reducers: {
         addNote: {
             reducer: (state, action) => {
-                console.log(action.payload);
-                // state.items.push(action.payload);
+                // console.log("gelen action payload => ", action.payload);
+                state.items.push(action.payload);
             }
         }
     }
