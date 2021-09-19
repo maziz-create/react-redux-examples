@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 function ListNotes() {
     const notes = useSelector((state) => state.notes.items);
 
+    localStorage.setItem('numberOfNotes', notes.length);
+
     const handleNoteColor = (note_color) => {
         switch (note_color) {
             case 'pink':
