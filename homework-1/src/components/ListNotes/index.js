@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 
 import { Box, Grid, Text } from '@chakra-ui/react'
 
@@ -7,14 +7,19 @@ import { useSelector } from 'react-redux';
 function ListNotes() {
     const notes = useSelector((state) => state.notes.items);
 
-    localStorage.setItem('numberOfNotes', notes.length);
+    useEffect(() => {
+        localStorage.setItem('numberOfNotes', notes.length);
+        // console.log('List Notes>notes didMount oldu ve numberOfNotes set edildi! =>',
+        //     localStorage.getItem('numberOfNotes')
+        // )
+    }, [notes])
 
     const handleNoteColor = (note_color) => {
         switch (note_color) {
             case 'pink':
                 return '#F06292';
             case 'purple':
-                return '#BA68C8;';
+                return '#BA68C8';
             case 'yellow':
                 return '#FFD54F';
             case 'blue':
