@@ -25,6 +25,7 @@ export const notesSlice = createSlice({
                 color: 'green',
             },
         ],
+        filterText: '',
     },
     reducers: {
         addNote: {
@@ -33,9 +34,15 @@ export const notesSlice = createSlice({
                 state.items.push(action.payload);
                 // console.log("gelen note id => ", action.payload.id);s
             }
+        },
+        changeFilterText: (state, action) => {
+            const filterText = action.payload.toLocaleLowerCase();
+            state.filterText = filterText;
+            console.log("stora'a dispatch edilen filterText => ", filterText);
+            console.log("stora'a dispatch edilen ve state'te güncellenen filterText => ", state.filterText);
         }
     }
 })
 
-export const { addNote } = notesSlice.actions;
+export const { addNote, changeFilterText } = notesSlice.actions;
 export default notesSlice.reducer;
