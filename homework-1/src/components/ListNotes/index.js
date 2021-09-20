@@ -7,11 +7,12 @@ import { useSelector } from 'react-redux';
 function ListNotes() {
     const notes = useSelector((state) => state.notes.items);
 
+    let filterText = useSelector((state) => state.notes.filterText);
+
+    console.log("ListNotes Component filterText => ", filterText);
+
     useEffect(() => {
         localStorage.setItem('numberOfNotes', notes.length);
-        // console.log('List Notes>notes didMount oldu ve numberOfNotes set edildi! =>',
-        //     localStorage.getItem('numberOfNotes')
-        // )
     }, [notes])
 
     const handleNoteColor = (note_color) => {
@@ -31,11 +32,33 @@ function ListNotes() {
         }
     }
 
-    console.log(notes);
+    // console.log(notes);
 
     return (
         <Grid templateColumns="repeat(3, 1fr)" gap={6} marginTop="2">
             {
+                filterText &&
+                notes.filter(note =>
+                    note.title?.toLocaleLowerCase()
+                        .includes(filterText)
+                        )
+                    .map(filteredNote => (
+                        <Box
+                            key={filteredNote.id}
+                            bg="gray.100"
+                            w="100%"
+                            h="100px"
+                            overflow="auto"
+                            textAlign="center"
+                        >
+                            <Text fontSize="18px" bg={handleNoteColor(filteredNote.color)}>Note {filteredNote.id}</Text>
+                            <Text fontSize="13px">{filteredNote.title}</Text>
+                        </Box>
+                    ))
+
+            }
+            {
+                !filterText &&
                 notes.map((note) => (
                     <Box
                         key={note.id}
@@ -50,7 +73,7 @@ function ListNotes() {
                     </Box>
                 ))
             }
-        </Grid>
+        </Grid >
     )
 }
 
