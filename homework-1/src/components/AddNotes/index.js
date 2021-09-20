@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styles from '../styles.module.css'
-
-import { useSelector } from 'react-redux';
 
 import Palette from '../Palette'
 
