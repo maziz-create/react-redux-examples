@@ -1,8 +1,22 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 
 import { Input, Text } from '@chakra-ui/react'
 
+import { changeFilterText } from '../../redux/notes/notesSlice'
+
+import { useDispatch } from 'react-redux'
+
 function SearchInput() {
+    const [filterTextFromInput, FilterTextFromInput] = useState('');
+
+    const dispatch = useDispatch();
+
+    console.log("filterTextFromInput => ", filterTextFromInput)
+
+    useEffect(() => {
+        dispatch(changeFilterText(filterTextFromInput))
+    }, [filterTextFromInput])
+
     return (
         <div>
             <Text
@@ -22,6 +36,9 @@ function SearchInput() {
                 marginBottom="3"
                 borderRadius="3xl"
                 width="60%"
+
+                value={filterTextFromInput}
+                onChange={(e) => FilterTextFromInput(e.target.value)}
 
                 focusBorderColor="red.200"
             />
