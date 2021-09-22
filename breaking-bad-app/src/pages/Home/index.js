@@ -1,9 +1,15 @@
-import React from 'react'
+import { useEffect } from 'react'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchCharacters } from '../../redux/characters/charactersSlice'
 
 function Home() {
-    const data = useSelector(state => state.characters)
+    const data = useSelector(state => state.characters);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCharacters());
+    }, [dispatch])
 
     console.log(data);
     return (
