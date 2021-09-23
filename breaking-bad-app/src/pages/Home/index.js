@@ -10,15 +10,19 @@ function Home() {
     const characters = useSelector(state => state.characters.items);
     const isLoading = useSelector(state => state.characters.isLoading);
     const error = useSelector(state => state.characters.error);
+    const hasNextPage = useSelector(state => state.characters.hasNextPage);
     const dispatch = useDispatch();
+    let page = useSelector(state => state.characters.page);
+
+    const addPage = () => {
+        console.log("Page ' nin eski hali => ", page);
+        page += 1;
+        console.log("Page ' nin yeni hali => ", page);
+    }
 
     useEffect(() => {
         dispatch(fetchCharacters());
     }, [dispatch])
-
-    if (isLoading) {
-        return <Loading />
-    }
 
     if (error) {
         return <Error error={error} />
@@ -28,7 +32,6 @@ function Home() {
     return (
         <div>
             <h1>Characters</h1>
-
             {
                 characters.map((character) => (
                     <div key={character.char_id} style={{
@@ -55,6 +58,25 @@ function Home() {
                 )
                 )
             }
+            <div style={{ textAlign: 'center' }}>
+                {
+                    isLoading && <Loading />
+                }
+                {
+                    hasNextPage && !isLoading && (
+                        <button
+                            style={{ padding: 10, marginTop: 1 }}
+                            onClick={() => dispatch(fetchCharacters(page))}
+                        >
+                            Load More
+                        </button>
+                    )
+                }
+                {
+                    !hasNextPage && <div>There is nothing to be shown</div>
+                }
+
+            </div>
         </div>
     )
 }
