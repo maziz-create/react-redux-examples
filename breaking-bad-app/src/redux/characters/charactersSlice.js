@@ -6,9 +6,9 @@ const char_limit = 10;
 
 export const fetchCharacters = createAsyncThunk(
     'characters/getCharacters',
-    async () => {
-        const res = await axios(`
-        ${process.env.REACT_APP_API_BASE_ENDPOINT}/characters?limit=${char_limit}`);
+    async (page) => {
+        const res = await axiosS(`
+        ${process.env.REACT_APP_API_BASE_ENDPOINT}/characters?limit=${char_limit}?offset=${char_limit * page}`);
 
         return res.data;
     }
@@ -20,6 +20,7 @@ export const charactersSlice = createSlice({
         items: [],
         isLoading: false,
         error: null,
+        page: 0,
     },
     reducers: {},
     extraReducers: {
