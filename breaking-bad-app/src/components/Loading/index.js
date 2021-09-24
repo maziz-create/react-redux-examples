@@ -7,6 +7,7 @@ function Loading() {
             padding: 5,
             color: '#fff',
             background: '#000',
+            textAlign: 'center',
         }}>
             Loading...
         </div>
