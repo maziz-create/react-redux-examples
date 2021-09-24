@@ -1,14 +1,17 @@
 import { useEffect } from 'react'
 
+import { Link } from "react-router-dom";
+
 import Error from '../../components/Error'
 import Loading from '../../components/Loading'
+
 
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchCharacters } from '../../redux/characters/charactersSlice'
 
 function Home() {
     const characters = useSelector(state => state.characters.items);
-    const isLoading = useSelector(state => state.characters.isLoading);
+    const status = useSelector(state => state.characters.status);
     const error = useSelector(state => state.characters.error);
     const hasNextPage = useSelector(state => state.characters.hasNextPage);
     const dispatch = useDispatch();
@@ -21,10 +24,12 @@ function Home() {
     }
 
     useEffect(() => {
-        dispatch(fetchCharacters());
+        if (status === 'idle') {
+            dispatch(fetchCharacters());
+        }
     }, [dispatch])
 
-    if (error) {
+    if (status === 'failed') {
         return <Error error={error} />
     }
 
@@ -37,33 +42,36 @@ function Home() {
                     <div key={character.char_id} style={{
                         display: 'inline-block',
                         margin: 5,
-                        border: '15px solid #d9d9d9'
+                        border: '15px solid #d9d9d9',
+                        cursor: 'pointer',
                     }}>
-                        <img
-                            src={character.img}
-                            alt={character.name}
-                            width="200px"
-                            height="280px"
-                            style={{ objectFit: 'cover' }}
-                        />
-                        <h3 style={{
-                            textAlign: 'center',
-                            margin: '0',
-                            background: '#545863',
-                            color: '#fff'
-                        }}>
-                            {character.name}
-                        </h3>
+                        <Link to={`/char/${character.char_id}`}>
+                            <img
+                                src={character.img}
+                                alt={character.name}
+                                width="200px"
+                                height="280px"
+                                style={{ objectFit: 'cover' }}
+                            />
+                            <h3 style={{
+                                textAlign: 'center',
+                                margin: '0',
+                                background: '#545863',
+                                color: '#fff'
+                            }}>
+                                {character.name}
+                            </h3>
+                        </Link>
                     </div>
                 )
                 )
             }
             <div style={{ textAlign: 'center' }}>
                 {
-                    isLoading && <Loading />
+                    status === 'loading' && <Loading />
                 }
                 {
-                    hasNextPage && !isLoading && (
+                    hasNextPage && status !== 'loading' && (
                         <button
                             style={{ padding: 10, marginTop: 1 }}
                             onClick={() => dispatch(fetchCharacters(page))}
