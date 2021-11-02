@@ -29,9 +29,6 @@ function Quotes() {
 
     if (error) return <Error error={error} />
 
-
-    console.log(data);
-
     return (
         <div style={{ padding: '15px' }}>
             <h1>Quotes</h1>

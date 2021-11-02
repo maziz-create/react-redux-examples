@@ -10,8 +10,6 @@ function Counter() {
 
     const [amount, setAmount] = useState(3);
 
-    console.log(countValue);
-
     return (
         <div>
             <h1>{countValue}</h1>

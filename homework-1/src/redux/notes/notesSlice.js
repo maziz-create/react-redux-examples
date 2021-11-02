@@ -38,8 +38,6 @@ export const notesSlice = createSlice({
         changeFilterText: (state, action) => {
             const filterText = action.payload.toLocaleLowerCase();
             state.filterText = filterText;
-            console.log("stora'a dispatch edilen filterText => ", filterText);
-            console.log("stora'a dispatch edilen ve state'te güncellenen filterText => ", state.filterText);
         }
     }
 })

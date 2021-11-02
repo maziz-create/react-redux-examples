@@ -9,8 +9,6 @@ function ListNotes() {
 
     let filterText = useSelector((state) => state.notes.filterText);
 
-    console.log("ListNotes Component filterText => ", filterText);
-
     useEffect(() => {
         localStorage.setItem('numberOfNotes', notes.length);
     }, [notes])

@@ -11,8 +11,6 @@ function SearchInput() {
 
     const dispatch = useDispatch();
 
-    console.log("filterTextFromInput => ", filterTextFromInput)
-
     useEffect(() => {
         dispatch(changeFilterText(filterTextFromInput))
     }, [filterTextFromInput])
