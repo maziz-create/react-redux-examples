@@ -2,6 +2,15 @@
     padding: 10px 0;
 }
 
+.quote_item a {
+    text-decoration: none;
+    color: #333;
+}
+
+.quote_item a:hover {
+    text-decoration: underline;
+}
+
 .quotes_info {
     padding: 30px;
     text-align: center;

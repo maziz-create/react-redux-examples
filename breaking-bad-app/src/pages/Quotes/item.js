@@ -1,13 +1,18 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
+
 import './style.css'
 
-function item({ item }) {
+function Item({ item }) {
     return (
         <div className="quote_item">
-            <q>
-                {item.quote}
-            </q>
+            <Link to={`quotes/${item.quote_id}`}>
+                <q>
+                    {item.quote}
+                </q>
+            </Link> 
+            {' '}
             <strong>
                 {item.author}
             </strong>
@@ -15,4 +20,4 @@ function item({ item }) {
     )
 }
 
-export default item
+export default Item
