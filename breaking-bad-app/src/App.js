@@ -10,6 +10,7 @@ import {
 import Home from './pages/Home'
 import Detail from './pages/Detail'
 import Quotes from './pages/Quotes'
+import QuoteDetail from './pages/QuoteDetail'
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
           <Route exact path="/" component={Home} />
           {/* exact => sadece şu path olduğunda bunu göster. */}
           <Route path="/char/:char_id" component={Detail} />
-          <Route path="/quotes" component={Quotes} />
+          <Route exact path="/quotes" component={Quotes} />
+          <Route path="/quotes/:quote_id" component={QuoteDetail} />
         </Switch>
       </div>
     </Router>
